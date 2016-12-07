@@ -1,5 +1,5 @@
 # xyMap
-JavaScript small and easy map component for non-earth x-y coordinates based on HTML canvas.
+JavaScript small and easy map component for non-earth x-y coordinates data. Based on HTML canvas.
 
 ### How to use
 ```js
