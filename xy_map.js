@@ -111,6 +111,7 @@ class XyMap {
     this.viewPort = null;
   };
   
+  //add object for draw to array
   add(obj) {
     if (!this.limit.xMin) {
       this.limit.xMin = obj.x;
@@ -193,6 +194,7 @@ class XyMap {
     this.viewPort.show();
   };
 
+  //callback for viewport vp = { x1, x2, y1, y2, zX, zY }
   drawViewport(vp) {
     let x,y,obj,objT;
     let other = this;
