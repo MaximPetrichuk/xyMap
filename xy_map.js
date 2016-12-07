@@ -106,7 +106,6 @@ class XyMap {
     if (!this.container) {
       throw new Error('xyMap: container not found.');
     };
-    this.paper = null;
     this.limit = { xMin: null, yMin: null, xMax: null, yMax: null },
     this.objects = []; //{ id: 1, caption: 'Obj1', type: 'circe', x: 0, y: 0, r: 5, color: 'red' }
     this.viewPort = null;
