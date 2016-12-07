@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>xyMap Demo</title>
+    <script src="xy_map.js"></script>
+</head>
+<body>
+
+<button onclick="zoom('in')">Zoom In</button>
+<button onclick="zoom('out')">Zoom Out</button>
+
+<div id="map" style="width: 400px; height: 400px; border: solid 1px gray;"></div>
+
+<script type="text/javascript">
+    var min = 1000, max = 10000,
+        x, y, obj;
+    var xyMap = new XyMap('map');
+    for (var i = 0; i < 1000; i++) {
+        x = Math.random() * (max - min) + min;
+        y = Math.random() * (max - min) + min;
+        obj = { id: i, caption: 'Obj-'+i, type: 'circe', x: x, y: y, r: 5,  color: 'red' };
+        xyMap.add(obj);
+    };
+    xyMap.init();
+    xyMap.show();
+
+    function zoom(type) {
+        switch (type) {
+            case 'in': 
+                xyMap.zoomIn(0.2);
+                break;
+            case 'out':
+                xyMap.zoomOut(0.2);
+                break;
+        };
+    }
+</script>
+
+</body>
+</html>
