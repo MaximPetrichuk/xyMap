@@ -1,8 +1,8 @@
 /*
  * xyMap
  * @author Maxim Petrichuk
- * @version 0.1.1
- * @date Dec 07th, 2016
+ * @version 0.1.2
+ * @date Dec 08th, 2016
  * @repo https://github.com/MaximPetrichuk/xyMap
 
   sample usage in index.html
@@ -43,8 +43,17 @@ class Viewport {
 
   get Center() { return this.center; };
 
-  set Zoom(zoomXY) {
-    this.zoom = zoomXY;
+  set Zoom(zoomShift) {
+    let oldZoom = {x: this.zoom.x, y: this.zoom.y};
+    this.zoom.x = this.zoom.x + this.zoom.x * zoomShift.x;
+    this.zoom.y = this.zoom.y + this.zoom.y * zoomShift.y;
+//    let mult = (zoomShift < 0) ? 1 : -1;
+//    this.center.x = this.center.x + 50 * mult;
+//    this.center.y = this.center.y + 50 * mult;
+//    this.center.x = this.center.x + (this.center.x * this.zoom.x - this.center.x * oldZoom.x) * mult;
+//    this.center.y = this.center.y + (this.center.y * this.zoom.y - this.center.y * oldZoom.y) * mult;
+//    this.center.x = this.center.x + (this.size.w / this.zoom.x - this.size.w / oldZoom.x) * mult;
+//    this.center.y = this.center.y + (this.size.h / this.zoom.y - this.size.h / oldZoom.y) * mult;
     this.caclViewPort();
   };
 
@@ -70,8 +79,8 @@ class Viewport {
   };
 
   caclViewPort() {
-    this.vX = this.center.x - (this.map.xMax - this.map.xMin) / 2;
-    this.vY = this.center.y - (this.map.yMax - this.map.yMin) / 2;
+    this.vX = this.center.x - this.size.w / 2 / this.zoom.x;
+    this.vY = this.center.y - this.size.h / 2 / this.zoom.y;
   };
 
   calcCenter() {
@@ -161,7 +170,7 @@ class XyMap {
           this.viewPort.show();
           break;
         case 'wheel':
-          (ev.wheelDelta >0) ? this.zoomIn(0.2) : this.zoomOut(0.2);
+          (ev.deltaY < 0) ? this.zoom(0.2) : this.zoom(-0.2);
           break;
       }
     };
@@ -178,20 +187,9 @@ class XyMap {
 
   show() { this.viewPort.show(); };
 
-  zoomIn(value) {
-    let z = this.viewPort.Zoom;
-    z.x = z.x + z.x * value;
-    z.y = z.x;
-    this.viewPort.Zoom = z;
+  zoom(value) {
+    this.viewPort.Zoom = {x: value, y: value};
     this.viewPort.show();    
-  };
-
-  zoomOut(value) {
-    let z = this.viewPort.Zoom;
-    z.x = z.x - z.x * value;
-    z.y = z.x;
-    this.viewPort.Zoom = z;
-    this.viewPort.show();
   };
 
   //callback for viewport vp = { x1, x2, y1, y2, zX, zY }
