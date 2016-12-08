@@ -47,6 +47,13 @@ class Viewport {
     let oldZoom = {x: this.zoom.x, y: this.zoom.y};
     this.zoom.x = this.zoom.x + this.zoom.x * zoomShift.x;
     this.zoom.y = this.zoom.y + this.zoom.y * zoomShift.y;
+//    let mult = (zoomShift < 0) ? 1 : -1;
+//    this.center.x = this.center.x + 50 * mult;
+//    this.center.y = this.center.y + 50 * mult;
+//    this.center.x = this.center.x + (this.center.x * this.zoom.x - this.center.x * oldZoom.x) * mult;
+//    this.center.y = this.center.y + (this.center.y * this.zoom.y - this.center.y * oldZoom.y) * mult;
+//    this.center.x = this.center.x + (this.size.w / this.zoom.x - this.size.w / oldZoom.x) * mult;
+//    this.center.y = this.center.y + (this.size.h / this.zoom.y - this.size.h / oldZoom.y) * mult;
     this.caclViewPort();
   };
 
@@ -142,8 +149,8 @@ class XyMap {
     this.handleEvent = function(ev) {
       switch(ev.type) {
         case 'mousedown':
-          this.container.addEventListener('mousemove', this);
-          this.container.addEventListener('mouseup', this);
+          document.addEventListener('mousemove', this);
+          document.addEventListener('mouseup', this);
           this.startMove = { x: ev.clientX, y: ev.clientY };
           this.startCenter = this.viewPort.Center;
           let ctx = this.canvas.getContext('2d');
@@ -153,8 +160,8 @@ class XyMap {
           this.scroll(ev.clientX, ev.clientY);
           break;
         case 'mouseup':
-          this.container.removeEventListener('mouseup', this);
-          this.container.removeEventListener('mousemove', this);
+          document.removeEventListener('mouseup', this);
+          document.removeEventListener('mousemove', this);
           this.imageData = null;
           this.startMove = { x: this.startMove.x - ev.clientX, y: this.startMove.y - ev.clientY };
           this.startCenter.x = this.startCenter.x + this.startMove.x / this.viewPort.Zoom.x;
@@ -167,8 +174,8 @@ class XyMap {
           break;
       }
     };
-    this.container.addEventListener('mousedown', this);    
-    this.container.addEventListener('wheel', this);    
+    document.addEventListener('mousedown', this);    
+    document.addEventListener('wheel', this);    
   };
 
   scroll(x, y) {
