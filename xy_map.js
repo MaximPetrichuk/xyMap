@@ -47,13 +47,6 @@ class Viewport {
     let oldZoom = {x: this.zoom.x, y: this.zoom.y};
     this.zoom.x = this.zoom.x + this.zoom.x * zoomShift.x;
     this.zoom.y = this.zoom.y + this.zoom.y * zoomShift.y;
-//    let mult = (zoomShift < 0) ? 1 : -1;
-//    this.center.x = this.center.x + 50 * mult;
-//    this.center.y = this.center.y + 50 * mult;
-//    this.center.x = this.center.x + (this.center.x * this.zoom.x - this.center.x * oldZoom.x) * mult;
-//    this.center.y = this.center.y + (this.center.y * this.zoom.y - this.center.y * oldZoom.y) * mult;
-//    this.center.x = this.center.x + (this.size.w / this.zoom.x - this.size.w / oldZoom.x) * mult;
-//    this.center.y = this.center.y + (this.size.h / this.zoom.y - this.size.h / oldZoom.y) * mult;
     this.caclViewPort();
   };
 
