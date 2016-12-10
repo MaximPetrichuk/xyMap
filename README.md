@@ -1,7 +1,7 @@
 # xyMap
 JavaScript small and easy map component for non-earth x-y coordinates data. Based on HTML canvas.
 
-![Online example](https://jsfiddle.net/Petrichuk/qcg1k6ev/)
+[Online example](https://jsfiddle.net/Petrichuk/qcg1k6ev/)
 
 ### How to use
 ```js
