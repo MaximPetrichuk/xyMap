@@ -227,7 +227,7 @@ class XyMap {
           document.addEventListener('mouseup', this);
           this.startMove = { x: ev.clientX, y: ev.clientY };
           this.startCenter = this.viewPort.Center;
-          this.imageData = this.ctx.getImageData(0,0,this.canvas.width, this.canvas.height);
+          this.imageData = this.ctx.getImageData(0,0,this.canvas.clientWidth, this.canvas.clientHeight);
           break;
         case 'mousemove':
           this.scroll(ev.clientX, ev.clientY);
@@ -294,7 +294,7 @@ class XyMap {
   };
 
   scroll(x, y) {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight);
     this.ctx.putImageData(this.imageData, x - this.startMove.x, y -this.startMove.y);
   };
 
@@ -308,7 +308,7 @@ class XyMap {
   //callback for viewport vp = { x1, x2, y1, y2, zX, zY }
   drawViewport(vp) {
     let d;
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight);
     for (let i = 0; i < this.layers.length; i++) { 
       if (this.layers[i].visible) {
         let result = this.layers[i].tree.search({ minX: vp.x1, minY: vp.y1, maxX: vp.x2, maxY: vp.y2 });
