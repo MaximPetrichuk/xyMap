@@ -229,6 +229,18 @@ class XyMap {
           this.startCenter = this.viewPort.Center;
           this.imageData = this.ctx.getImageData(0,0,this.canvas.clientWidth, this.canvas.clientHeight);
           break;
+        case 'touchstart':
+          this.startCenter = this.viewPort.Center;
+          if (ev.targetTouches.length == 1) {
+            let touch = ev.targetTouches[0];
+            this.selectOnClick(touch.pageX,touch.pageY);
+            this.startMove = { x: touch.pageX, y: touch.pageY };
+            this.startCenter.x = this.startMove.x / this.viewPort.Zoom.x;
+            this.startCenter.y = this.startMove.y / this.viewPort.Zoom.y;
+            this.viewPort.Center = this.startCenter;
+            this.viewPort.show();
+           };
+          break;
         case 'mousemove':
           this.scroll(ev.clientX, ev.clientY);
           break;
@@ -246,19 +258,20 @@ class XyMap {
           (ev.deltaY < 0) ? this.zoom(0.2) : this.zoom(-0.2);
           break;
         case 'click':
-          this.selectOnClick(ev);
+          this.selectOnClick(ev.offsetX,ev.offsetY);
           break;
       }
     };
-    document.addEventListener('mousedown', this);    
+    document.addEventListener('mousedown', this);
+    this.canvas.addEventListener('touchstart', this);  
     document.addEventListener('wheel', this);    
     this.canvas.addEventListener('click', this);    
   };
 
-  selectOnClick(ev) {
+  selectOnClick(mX,mY) {
     let size = 5,
-        mX = ev.offsetX==undefined?ev.layerX:ev.offsetX,
-        mY = ev.offsetY==undefined?ev.layerY:ev.offsetY,
+//        mX = ev.offsetX==undefined?ev.layerX:ev.offsetX,
+//        mY = ev.offsetY==undefined?ev.layerY:ev.offsetY,
         x1 = this.viewPort.startX + (mX - size) / this.viewPort.Zoom.x,
         x2 = this.viewPort.startX + (mX + size) / this.viewPort.Zoom.x,
         y1 = this.viewPort.startY + (mY - size) / this.viewPort.Zoom.y,

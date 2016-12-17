@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>xyMap Demo</title>
+    <script src="xy_map.js"></script>
+    <script src="rbush.min.js"></script>
+</head>
+<body>
+
+<button onclick="zoom('in')">Zoom In</button>
+<button onclick="zoom('out')">Zoom Out</button>
+<button onclick="caption()">Hide/show captions</button>
+<button onclick="select()">Select random object</button>
+
+<div id="map" style="width: 400px; height: 400px; border: solid 1px gray;"></div>
+<div id="selected"></div>
+
+<script type="text/javascript">
+    var min = 1000, max = 10000,
+        x, y, obj;
+
+    var xyMap = new XyMap('map');
+
+    obj = { 
+        id: 0, 
+        type: 'shape', 
+        layer: 0, 
+        caption: 'Fig-'+1, 
+        colorFill: 'green', 
+        colorStroke: 'black',
+        widthStroke: 1,
+        koords: [
+            {x:2000,y:4000},{x:7000,y:2000},{x:6000,y:4500}
+        ] 
+    };
+    xyMap.add(obj);
+
+    let layerId = xyMap.addLayer({
+                            alpha: 0.6, 
+                            visible: true,
+                            visibleCaption: true,
+                            caption: { offsetX: -20, offsetY: - 9, font: '8pt arial', color: 'black' },
+                            selectable: true,
+                            selectChangeStoke: true,
+                            selectStrokeWidth: 2,
+                            selectStrokeColor: 'black',
+                            selectChangeFill: true,
+                            selectFillColor: 'red',
+                            onSelect: d=>{ document.getElementById("selected").innerHTML = d.caption; }
+                        });
+    for (var i = 1; i < 100; i++) {
+        x = Math.random() * (max - min) + min;
+        y = Math.random() * (max - min) + min;
+        obj = { 
+            id: i, 
+            layer: layerId, 
+            type: 'circe', 
+            caption: 'Obj-'+i, 
+            x: x, y: y, r: 5, 
+            colorFill: 'blue', 
+            colorStroke: 'black',
+            widthStroke: 1
+        };
+        xyMap.add(obj);
+    };
+    xyMap.init();
+    xyMap.show();
+
+    function zoom(type) {
+        switch (type) {
+            case 'in': 
+                xyMap.zoom(0.2);
+                break;
+            case 'out':
+                xyMap.zoom(-0.2);
+                break;
+        };
+    }
+
+    function caption() {
+        xyMap.layers[1].visibleCaption = !xyMap.layers[1].visibleCaption;
+        xyMap.show();
+    }
+
+    function select() {
+        let id = Math.round(Math.random() * (99));
+        xyMap.select(id);
+    }
+</script>
+
+</body>
+</html>
