@@ -1,8 +1,8 @@
 /*
  * xyMap
  * @author Maxim Petrichuk
- * @version 0.2.1
- * @date Dec 10th, 2016
+ * @version 0.2.2
+ * @date Apr 18th, 2019
  * @repo https://github.com/MaximPetrichuk/xyMap
  *
  *   - Dependencies: https://github.com/mourner/rbush
@@ -134,6 +134,7 @@ class XyMap {
       colorStroke: 'black',
       widthStroke: 1      
     };
+    this.mouseWheelZoom = true;
   };
 
   // add layer and returned his id (number);
@@ -255,7 +256,7 @@ class XyMap {
           this.viewPort.show();
           break;
         case 'wheel':
-          (ev.deltaY < 0) ? this.zoom(0.2) : this.zoom(-0.2);
+          if (mouseWheelZoom) {(ev.deltaY < 0) ? this.zoom(0.2) : this.zoom(-0.2);}
           break;
         case 'click':
           this.selectOnClick(ev.offsetX,ev.offsetY);
